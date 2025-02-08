@@ -37,7 +37,7 @@ export const updatePerson = async (
   person: Person,
 ): Promise<Person> => {
   const response = await fetch(`${process.env.API_URL}/persons/${id}`, {
-    method: 'PUT',
+    method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },

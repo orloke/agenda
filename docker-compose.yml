@@ -1,38 +1,52 @@
-version: '3.8'
+networks:
+  agenda_network:
+    driver: bridge
+    name: agenda_network
 
 services:
-  # Backend (NestJS)
-  api:
-    build: ./agenda-api
+  # # Backend (NestJS)
+  api_agenda:
+    container_name: api_agenda
+    build:
+      context: ./agenda-api
+      target: production
     ports:
-      - "3000:3000"
+      - "${PORT_API}:${PORT_API}"
     env_file:
       - .env
     depends_on:
       - db
+    networks:
+      - agenda_network
 
   # Frontend (Next.js)
-  frontend:
-    build: ./agenda-front
+  front_agenda:
+    container_name: front_agenda
+    build:
+      context: ./agenda-front
+      target: production
     ports:
-      - "3001:3001"
+      - "${PORT_FRONT}:${PORT_FRONT}"
     env_file:
       - .env
     depends_on:
-      - api
+      - api_agenda
+    networks:
+      - agenda_network
 
   # Banco de dados PostgreSQL
   db:
-    image: postgres:13
+    image: postgres:15-alpine3.17
+    container_name: db_postgres_agenda
+    restart: always
     environment:
       POSTGRES_USER: ${DATABASE_USER}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
     ports:
-      - "5432:5432"
+      - "${DATABASE_PORT}:${DATABASE_PORT}"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./pgdata:/var/lib/postgresql/data
+    networks:
+      - agenda_network
 
-# Volume para persistir os dados do PostgreSQL
-volumes:
-  postgres_data:
