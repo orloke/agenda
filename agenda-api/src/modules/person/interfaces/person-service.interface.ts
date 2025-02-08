@@ -4,7 +4,15 @@ import { UpdatePersonDto } from '../dto/update-person.dto';
 import { Person } from '../entities/person.entity';
 
 export abstract class IPersonService {
-  abstract findAll(filters?: FiltersDto): Promise<Person[]>;
+  abstract findAll(filters?: FiltersDto): Promise<{
+    data: Person[];
+    pagination: {
+      page: number;
+      limit: number;
+      totalItems: number;
+      totalPages: number;
+    };
+  }>;
   abstract findOne(id: number): Promise<Person | null>;
   abstract create(createPersonDto: CreatePersonDto): Promise<Person>;
   abstract update(

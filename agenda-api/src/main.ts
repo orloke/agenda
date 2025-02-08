@@ -24,6 +24,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true, // only allow white listed params
     forbidNonWhitelisted: true, // not allow any other params
+    transform: true, // transform the data to the correct type
   }));
 
   await app.listen(port, async () => Logger.log(`Listening on port ${port}`));

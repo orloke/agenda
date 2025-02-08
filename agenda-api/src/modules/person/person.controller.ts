@@ -31,7 +31,15 @@ export class PersonController {
   @Get()
   @ApiOperation({ summary: 'Find all persons' })
   @ApiOkResponse({ type: [Person] })
-  async findAll(@Query() filters?: FiltersDto): Promise<Person[]> {
+  async findAll(@Query() filters?: FiltersDto): Promise<{
+    data: Person[];
+    pagination: {
+      page: number;
+      limit: number;
+      totalItems: number;
+      totalPages: number;
+    };
+  }> {
     return this.personService.findAll(filters);
   }
 

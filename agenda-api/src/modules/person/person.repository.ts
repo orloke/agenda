@@ -17,6 +17,10 @@ export class PersonRepository implements IPersonRepository {
     return this.personRepository.find(where);
   }
 
+  public async findAndCount(where?: FindManyOptions<Person>): Promise<[Person[], number]> {
+    return this.personRepository.findAndCount(where);
+  }
+
   public async findOne(where: FindOneOptions<Person>): Promise<Person | null> {
     return this.personRepository.findOne(where);
   }

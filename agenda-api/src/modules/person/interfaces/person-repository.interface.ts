@@ -9,4 +9,5 @@ export abstract class IPersonRepository {
   abstract create(personData: CreatePersonDto): Promise<Person>;
   abstract update(id: number, personData: UpdatePersonDto): Promise<Person | null>;
   abstract delete(id: number): Promise<DeleteResult>;
+  abstract findAndCount(where?: FindManyOptions<Person>): Promise<[Person[], number]>;
 }
